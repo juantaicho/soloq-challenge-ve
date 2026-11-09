@@ -3,399 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SoloQ Challenge Venezuela — Leaderboard Oficial</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>SoloQ Challenge Venezuela - Leaderboard</title>
   <style>
-    :root {
-      --bg-dark: #07070a;
-      --card-bg: #0f1015;
-      --border-gold: #c8aa6e;
-      --border-subtle: rgba(200, 170, 110, 0.25);
-      --gold-bright: #f0e6d2;
-      --accent-crimson: #c82538;
-      --accent-teal: #0ac8b9;
-      --text-muted: #939aa5;
-    }
-
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
-
     body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(200, 37, 56, 0.15), transparent 45%),
-        radial-gradient(circle at 50% 100%, rgba(200, 170, 110, 0.08), transparent 50%);
-      font-family: 'Rajdhani', sans-serif;
-      color: var(--gold-bright);
+      background-color: #0b0507;
+      color: #f8fafc;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 32px 16px;
+      padding: 40px 20px;
     }
-
-    .container {
-      width: 100%;
-      max-width: 960px;
-    }
-
-    /* HEADER */
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 30px;
     }
-
-    .title {
-      font-family: 'Cinzel', serif;
-      font-size: 32px;
-      letter-spacing: 2px;
-      color: var(--border-gold);
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #f43f5e;
       text-transform: uppercase;
-      text-shadow: 0 0 15px rgba(200, 170, 110, 0.3);
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
     }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      margin-top: 4px;
-      text-transform: uppercase;
+    p.subtitle {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-top: 5px;
     }
-
-    .status-bar {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(15, 16, 21, 0.8);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 4px 14px;
-      margin-top: 12px;
-      font-size: 13px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-teal);
-      box-shadow: 0 0 8px var(--accent-teal);
-    }
-
-    /* TABS */
-    .tabs-wrapper {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      background: #14161f;
-      border: 1px solid var(--border-subtle);
-      color: var(--gold-bright);
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      padding: 10px 22px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .tab-btn:hover {
-      border-color: var(--border-gold);
-      background: rgba(200, 170, 110, 0.1);
-    }
-
-    .tab-btn.active {
-      background: linear-gradient(180deg, #2b1117 0%, #15090d 100%);
-      border-color: var(--accent-crimson);
-      color: #fff;
-      box-shadow: 0 0 12px rgba(200, 37, 56, 0.4);
-    }
-
-    /* LEADERBOARD TABLE */
-    .table-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-subtle);
-      border-top: 2px solid var(--border-gold);
-      border-radius: 8px;
+    .table-container {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(180deg, rgba(28, 10, 18, 0.95) 0%, rgba(12, 4, 8, 0.98) 100%);
+      border: 1px solid rgba(225, 29, 72, 0.4);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(225, 29, 72, 0.1);
       overflow-x: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
     }
-
-    thead th {
-      font-family: 'Cinzel', serif;
-      font-size: 12px;
-      color: var(--border-gold);
-      letter-spacing: 1.5px;
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(225, 29, 72, 0.15);
+    }
+    th {
+      background: rgba(0, 0, 0, 0.4);
+      font-size: 0.85rem;
       text-transform: uppercase;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(0, 0, 0, 0.25);
+      letter-spacing: 0.05em;
+      color: #fda4af;
+      font-weight: 700;
     }
-
-    tbody tr {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      transition: background 0.15s ease;
+    tr:last-child td {
+      border-bottom: none;
     }
-
-    tbody tr:hover {
-      background: rgba(200, 170, 110, 0.04);
+    tr:hover td {
+      background: rgba(225, 29, 72, 0.05);
     }
-
-    tbody td {
-      padding: 14px 18px;
-      font-size: 15px;
-      vertical-align: middle;
-    }
-
-    .pos-col {
-      font-family: 'Cinzel', serif;
+    .pos {
       font-weight: 900;
-      font-size: 18px;
-      width: 48px;
+      font-size: 1.1rem;
+      color: #f43f5e;
       text-align: center;
-      color: var(--text-muted);
+      width: 50px;
     }
-
-    .pos-1 { color: #f1a80a; text-shadow: 0 0 10px rgba(241, 168, 10, 0.4); }
-    .pos-2 { color: #cfd8dc; }
-    .pos-3 { color: #cd7f32; }
-
-    .player-col {
+    .player-cell {
       display: flex;
       flex-direction: column;
     }
-
     .player-name {
-      font-size: 17px;
       font-weight: 700;
-      color: #fff;
+      color: #ffffff;
+      font-size: 1rem;
     }
-
     .player-tag {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-size: 0.75rem;
+      color: #94a3b8;
     }
-
-    .tier-badge {
+    .category-badge {
       display: inline-block;
-      font-size: 11px;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
+      background: rgba(225, 29, 72, 0.2);
+      border: 1px solid rgba(225, 29, 72, 0.4);
+      color: #fda4af;
       padding: 2px 8px;
-      border-radius: 4px;
-      border: 1px solid;
+      border-radius: 6px;
     }
-
-    .tier-High {
-      background: rgba(200, 37, 56, 0.15);
-      border-color: var(--accent-crimson);
-      color: #ff5e6e;
-    }
-
-    .tier-Mid {
-      background: rgba(10, 200, 185, 0.15);
-      border-color: var(--accent-teal);
-      color: var(--accent-teal);
-    }
-
-    .tier-Low {
-      background: rgba(200, 170, 110, 0.15);
-      border-color: var(--border-gold);
-      color: var(--border-gold);
-    }
-
-    .rank-val {
+    .rank-tier {
       font-weight: 700;
-      color: #fff;
+      color: #e2e8f0;
+      font-size: 0.95rem;
     }
-
-    .rank-lp {
-      color: var(--accent-teal);
+    .lp-cell {
       font-weight: 700;
+      color: #38bdf8;
     }
-
-    .winrate-bar-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .wr-cell {
+      color: #a1a1aa;
+      font-size: 0.85rem;
     }
-
-    .progress-track {
-      width: 80px;
-      height: 6px;
-      background: #1e2029;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-crimson), var(--accent-teal));
-      border-radius: 3px;
-    }
-
-    .winrate-text {
-      font-size: 14px;
-      font-weight: 700;
-      min-width: 44px;
-    }
-
-    .record-text {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .empty-state {
+    .loading-status {
       text-align: center;
-      padding: 40px;
-      color: var(--text-muted);
-      font-size: 16px;
+      padding: 30px;
+      color: #94a3b8;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1 class="title">SoloQ Challenge Venezuela</h1>
-      <p class="subtitle">Ranking Oficial de Creadores de Contenido</p>
-      <div class="status-bar">
-        <span class="status-dot"></span>
-        <span id="update-time">Sincronizando con Riot API...</span>
-      </div>
-    </header>
+  <header>
+    <h1>SoloQ Challenge Venezuela</h1>
+    <p class="subtitle">Tabla de Clasificación Oficial en Vivo</p>
+  </header>
 
-    <div class="tabs-wrapper">
-      <button class="tab-btn active" onclick="setDivision('ALL')">General</button>
-      <button class="tab-btn" onclick="setDivision('High Elo')">High Elo</button>
-      <button class="tab-btn" onclick="setDivision('Mid Elo')">Mid Elo</button>
-      <button class="tab-btn" onclick="setDivision('Low Elo')">Low Elo</button>
-    </div>
-
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th class="pos-col">#</th>
-            <th>Participante</th>
-            <th>Tier</th>
-            <th>Rango Actual</th>
-            <th>Winrate</th>
-            <th>Record</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <tr>
-            <td colspan="6" class="empty-state">Cargando clasificación...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <script>
-    let playersData = [];
-    let activeFilter = 'ALL';
-
-    async function loadLeaderboard() {
-      try {
-        // Reemplaza la URL del fetch por esta:
-const res = await fetch(`https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/public/leaderboard.json?v=${Date.now()}`);
-        
-        document.getElementById('update-time').textContent = `Actualizado: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-        render();
-      } catch (err) {
-        console.error(err);
-        document.getElementById('leaderboard-body').innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">Error cargando el ranking. Verifica que el archivo JSON esté generado.</td>
-          </tr>`;
-      }
-    }
-
-    function setDivision(division) {
-      activeFilter = division;
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.includes(division) || (division === 'ALL' && btn.textContent === 'General'));
-      });
-      render();
-    }
-
-    function render() {
-      const tbody = document.getElementById('leaderboard-body');
-      
-      // Filtrar por categoría si no es 'ALL'
-      let filtered = activeFilter === 'ALL' 
-        ? [...playersData] 
-        : playersData.filter(p => p.category.toLowerCase() === activeFilter.toLowerCase());
-
-      // Ordenar de mayor a menor por el score calculado por updater.py
-      filtered.sort((a, b) => b.score - a.score);
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No hay participantes registrados en esta categoría.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map((player, idx) => {
-        const pos = idx + 1;
-        const posClass = pos === 1 ? 'pos-1' : pos === 2 ? 'pos-2' : pos === 3 ? 'pos-3' : '';
-        const rankLabel = player.tier === 'UNRANKED' 
-          ? '<span style="color:#785a28;">UNRANKED</span>' 
-          : `<span class="rank-val">${player.tier} ${player.rank}</span> <span class="rank-lp">(${player.lp} LP)</span>`;
-        
-        const tierType = player.category.includes('High') ? 'High' : player.category.includes('Mid') ? 'Mid' : 'Low';
-
-        return `
-          <tr>
-            <td class="pos-col ${posClass}">${pos}</td>
-            <td>
-              <div class="player-col">
-                <span class="player-name">${player.name}</span>
-                <span class="player-tag">#${player.tag}</span>
-              </div>
-            </td>
-            <td>
-              <span class="tier-badge tier-${tierType}">${player.category}</span>
-            </td>
-            <td>${rankLabel}</td>
-            <td>
-              <div class="winrate-bar-container">
-                <div class="progress-track">
-                  <div class="progress-fill" style="width: ${player.winrate}%"></div>
-                </div>
-                <span class="winrate-text">${player.winrate}%</span>
-              </div>
-            </td>
-            <td>
-              <span class="record-text">${player.wins}V - ${player.losses}D</span>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    loadLeaderboard();
-    // Auto-refresco cada 2 minutos en la web pública
-    setInterval(loadLeaderboard, 120000);
-  </script>
-</body>
-</html>
+  <div class="table-container">
+    <table id="leaderboard-table">
+      <thead>
+        <tr>
+          <th style="text-align: center;">#</th>
+          <th>Participante</th>
+          <th>División</th>
+          <th>R
