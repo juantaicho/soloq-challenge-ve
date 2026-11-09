@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SoloQ Challenge Venezuela</title>
   <style>
-    /* Estilos Base y Tipografía */
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;800&display=swap');
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      background-color: #0b0507;
+      background-color: #0b0c10;
       color: #f8fafc;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
@@ -21,103 +20,108 @@
       padding: 40px 20px;
     }
 
-    /* Cabecera */
-    header { text-align: center; margin-bottom: 30px; }
+    /* HEADER */
+    header { text-align: center; margin-bottom: 25px; width: 100%; }
     
     h1 {
       font-family: 'Cinzel', serif;
       font-size: 2.8rem;
       font-weight: 900;
-      color: #d4af37; /* Dorado clásico */
+      color: #d4af37;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+      text-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+      margin-bottom: 5px;
     }
     
     p.subtitle {
-      color: #94a3b8;
-      font-size: 0.95rem;
+      color: #64748b;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.15em;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      font-weight: 600;
     }
     
     .status-bar {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
       font-size: 0.8rem;
-      font-weight: bold;
+      font-weight: 600;
       padding: 6px 16px;
       border-radius: 20px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
-    .status-live {
-      color: #4ade80;
-      background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.2);
-    }
+    
     .status-dot {
       width: 8px;
       height: 8px;
-      background-color: #4ade80;
+      background-color: #14b8a6;
       border-radius: 50%;
-      box-shadow: 0 0 8px #4ade80;
+      box-shadow: 0 0 8px #14b8a6;
     }
 
-    /* Filtros (Botones) */
+    /* FILTROS (Botones) */
     .filters {
       display: flex;
       gap: 12px;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       justify-content: center;
       flex-wrap: wrap;
     }
+    
     .filter-btn {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: #94a3b8;
-      padding: 10px 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.85rem;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.8rem;
       cursor: pointer;
       text-transform: uppercase;
-      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
     }
-    .filter-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    
+    .filter-btn:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+    
     .filter-btn.active {
-      background: rgba(225, 29, 72, 0.1);
       border-color: #e11d48;
       color: #fff;
-      box-shadow: 0 0 15px rgba(225, 29, 72, 0.3);
+      box-shadow: 0 0 12px rgba(225, 29, 72, 0.25);
     }
 
-    /* Tabla */
+    /* TABLA Y CONTENEDOR */
     .table-container {
       width: 100%;
-      max-width: 1000px;
-      background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      max-width: 1050px;
+      background: #111318;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
       overflow-x: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
     }
     
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 18px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    th, td { padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
     
     th {
       font-family: 'Cinzel', serif;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #d4af37;
       letter-spacing: 0.1em;
+      background: #0a0b0e;
+      text-transform: uppercase;
     }
     
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    tr:hover td { background: rgba(255, 255, 255, 0.03); }
     
-    /* Celdas Específicas */
+    /* ESTILOS DE LAS CELDAS */
     .pos {
       font-weight: 900;
       font-size: 1.2rem;
@@ -126,17 +130,18 @@
       width: 60px;
     }
     
-    .player-name { font-weight: 800; color: #fff; font-size: 1.05rem; display: block; }
-    .player-tag { font-size: 0.75rem; color: #64748b; font-weight: 600; }
+    .player-cell { display: flex; flex-direction: column; }
+    .player-name { font-weight: 800; color: #fff; font-size: 1.05rem; }
+    .player-tag { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 2px; }
     
-    /* Badges de Categoría por Colores */
+    /* Badges de Categoría por Elo */
     .badge {
       display: inline-block;
       font-size: 0.7rem;
       font-weight: 800;
       text-transform: uppercase;
       padding: 4px 10px;
-      border-radius: 6px;
+      border-radius: 4px;
       letter-spacing: 0.05em;
     }
     .badge-high { border: 1px solid #ef4444; color: #ef4444; }
@@ -146,26 +151,190 @@
 
     /* Rango y LP */
     .rank-tier { font-weight: 800; color: #e2e8f0; font-size: 0.95rem; }
-    .lp-text { color: #14b8a6; font-weight: 700; font-size: 0.9rem; }
+    .lp-text { color: #14b8a6; font-weight: 800; font-size: 0.9rem; margin-left: 5px; }
     
-    /* Barra de Winrate Visual */
-    .wr-container { display: flex; align-items: center; gap: 12px; }
+    /* Barra de Winrate Visual (El diseño de los 2 colores) */
+    .wr-container { display: flex; align-items: center; gap: 10px; }
     .wr-bar-bg {
-      width: 60px;
-      height: 6px;
-      background: #333;
+      width: 50px;
+      height: 5px;
+      background: #334155;
       border-radius: 3px;
+      display: flex;
       overflow: hidden;
     }
-    .wr-bar-fill { height: 100%; background: #14b8a6; border-radius: 3px; }
-    .wr-percent { font-weight: 700; color: #e2e8f0; font-size: 0.9rem; width: 45px; }
-    .record-cell { color: #94a3b8; font-size: 0.85rem; font-weight: 600; }
+    .wr-bar-fill { height: 100%; background: #14b8a6; }
+    .wr-bar-loss { height: 100%; background: #e11d48; }
+    .wr-percent { font-weight: 800; color: #e2e8f0; font-size: 0.85rem; width: 45px; text-align: right; }
     
+    .record-cell { color: #94a3b8; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; }
+    .error-msg { text-align: center; color: #ef4444; padding: 30px; font-weight: bold; }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>SoloQ Challenge Venezuela</h1>
+    <h1>SOLOQ CHALLENGE VENEZUELA</h1>
     <p class="subtitle">Ranking Oficial de Creadores de Contenido</p>
-    <div class="status-bar status-live"
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span id="sync-text">Conectando...</span>
+    </div>
+  </header>
+
+  <!-- Botones de Filtrado -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('ALL')">General</button>
+    <button class="filter-btn" onclick="setFilter('High Elo')">High Elo</button>
+    <button class="filter-btn" onclick="setFilter('Mid Elo')">Mid Elo</button>
+    <button class="filter-btn" onclick="setFilter('Low Elo')">Low Elo</button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center;">#</th>
+          <th>Participante</th>
+          <th>Tier</th>
+          <th>Rango Actual</th>
+          <th>Winrate</th>
+          <th>Record</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
+            Buscando jugadores...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let allPlayers = [];
+    let currentFilter = 'ALL';
+
+    function getBadgeClass(category) {
+      if (!category) return 'badge-default';
+      const cat = category.toLowerCase();
+      if (cat.includes('high')) return 'badge-high';
+      if (cat.includes('mid')) return 'badge-mid';
+      if (cat.includes('low')) return 'badge-low';
+      return 'badge-default';
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('leaderboard-body');
+      tbody.innerHTML = '';
+
+      // Filtra la lista según el botón que esté activo
+      const filteredPlayers = currentFilter === 'ALL' 
+        ? allPlayers 
+        : allPlayers.filter(p => p.category && p.category.toLowerCase() === currentFilter.toLowerCase());
+
+      if (filteredPlayers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 30px; color: #64748b;">No hay jugadores en esta categoría.</td></tr>`;
+        return;
+      }
+
+      // Dibuja cada fila
+      filteredPlayers.forEach((p, index) => {
+        const rankDisplay = (!p.tier || p.tier === 'UNRANKED') ? 'UNRANKED' : `${p.tier} ${p.rank || ''}`.trim();
+        const lpDisplay = p.tier !== 'UNRANKED' && p.tier ? `<span class="lp-text">(${p.lp ?? 0} LP)</span>` : '';
+        const badgeClass = getBadgeClass(p.category);
+        
+        const wr = p.winrate ?? 0;
+        const wins = p.wins ?? 0;
+        const losses = p.losses ?? 0;
+        
+        // Calcula porcentajes para la barra visual (Victorias Turquesa / Derrotas Rojo)
+        const totalGames = wins + losses;
+        const winPercent = totalGames > 0 ? (wins / totalGames * 100).toFixed(1) : 0;
+        const lossPercent = totalGames > 0 ? (losses / totalGames * 100).toFixed(1) : 0;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="pos">${index + 1}</td>
+          <td>
+            <div class="player-cell">
+              <span class="player-name">${p.name || 'Desconocido'}</span>
+              <span class="player-tag">#${p.tag || ''}</span>
+            </div>
+          </td>
+          <td><span class="badge ${badgeClass}">${p.category || 'SQCV'}</span></td>
+          <td><span class="rank-tier">${rankDisplay}</span>${lpDisplay}</td>
+          <td>
+            <div class="wr-container">
+              <div class="wr-bar-bg">
+                <div class="wr-bar-fill" style="width: ${winPercent}%"></div>
+                <div class="wr-bar-loss" style="width: ${lossPercent}%"></div>
+              </div>
+              <span class="wr-percent">${wr}%</span>
+            </div>
+          </td>
+          <td class="record-cell">${wins}V - ${losses}D</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setFilter(category) {
+      currentFilter = category;
+      // Remarca el botón presionado
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.toLowerCase() === category.toLowerCase() || (category === 'ALL' && btn.innerText === 'General')) {
+          btn.classList.add('active');
+        }
+      });
+      renderTable();
+    }
+
+    // Buscador Anti-Errores
+    async function updateTable() {
+      const syncText = document.getElementById('sync-text');
+      
+      // Lista de todas las posibles rutas donde podría estar el JSON
+      const urlsToTry = [
+        `public/leaderboard.json?t=${Date.now()}`,
+        `leaderboard.json?t=${Date.now()}`,
+        `https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/public/leaderboard.json?t=${Date.now()}`,
+        `https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/leaderboard.json?t=${Date.now()}`
+      ];
+
+      let data = null;
+
+      // El código intentará cada enlace hasta encontrar la información
+      for (const url of urlsToTry) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) {
+            data = await res.json();
+            break; 
+          }
+        } catch(e) { 
+          // Si falla, ignora y prueba el siguiente
+        }
+      }
+
+      if (data) {
+        allPlayers = data;
+        renderTable();
+        
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        syncText.textContent = `Actualizado: ${timeStr}`;
+      } else {
+        document.getElementById('leaderboard-body').innerHTML = `<tr><td colspan="6" class="error-msg">No se pudo encontrar el archivo leaderboard.json</td></tr>`;
+        syncText.textContent = "Error de sincronización";
+      }
+    }
+
+    // Inicia inmediatamente y actualiza cada 30 segundos
+    updateTable();
+    setInterval(updateTable, 30000);
+  </script>
+</body>
+</html>
