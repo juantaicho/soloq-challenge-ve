@@ -317,13 +317,8 @@
 
     async function loadLeaderboard() {
       try {
-        const res = await fetch(`leaderboard.json?nocache=${Date.now()}`, {
-  cache: "no-store",
-  headers: {
-    "Pragma": "no-cache",
-    "Cache-Control": "no-cache"
-  }
-});
+        // Reemplaza la URL del fetch por esta:
+const res = await fetch(`https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/public/leaderboard.json?v=${Date.now()}`);
         
         document.getElementById('update-time').textContent = `Actualizado: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
         render();
