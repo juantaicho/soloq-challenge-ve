@@ -38,7 +38,7 @@ PLAYERS = [
         "tag": "JUAN",
         "puuid": "PUUID_DE_JACOBOBITO",
         "category": "Low Elo"
-    }
+    },
 ]
 
 def get_summoner_id(puuid, headers):
