@@ -14,6 +14,10 @@ concurrency:
   group: 'pages'
   cancel-in-progress: true
 
+env:
+  # Silencia el warning forzando explícitamente el runtime de Node 24
+  ACTIONS_RUNNER_FORCE_ACTIONS_NODE24: "true"
+
 jobs:
   update-data:
     environment:
