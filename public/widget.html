@@ -144,13 +144,13 @@
 
       try {
         // 2. Fetch directo al JSON con cache-busting
-        const res = await fetch(`leaderboard.json?v=${Date.now()}`);
-        if (!res.ok) {
-          nameEl.textContent = "Error HTTP";
-          rankEl.textContent = `Código: ${res.status}`;
-          return;
-        }
-
+        const res = await fetch(`leaderboard.json?nocache=${Date.now()}`, {
+  cache: "no-store",
+  headers: {
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache"
+  }
+});
         const data = await res.json();
         
         // 3. Buscar coincidencia flexible
