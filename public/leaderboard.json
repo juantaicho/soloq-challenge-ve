@@ -1,8 +1,59 @@
 [
   {
+    "name": "Cenando Bollo",
+    "tag": "LANN",
+    "category": "Low Elo",
+    "tier": "EMERALD",
+    "rank": "III",
+    "lp": 75,
+    "wins": 211,
+    "losses": 221,
+    "winrate": 48.8,
+    "score": 52075,
+    "position": 1
+  },
+  {
+    "name": "JuanTaicho",
+    "tag": "JUAN",
+    "category": "Low Elo",
+    "tier": "EMERALD",
+    "rank": "IV",
+    "lp": 36,
+    "wins": 24,
+    "losses": 23,
+    "winrate": 51.1,
+    "score": 51036,
+    "position": 2
+  },
+  {
+    "name": "MishSR",
+    "tag": "LAN",
+    "category": "Low Elo",
+    "tier": "PLATINUM",
+    "rank": "II",
+    "lp": 9,
+    "wins": 86,
+    "losses": 102,
+    "winrate": 45.7,
+    "score": 43009,
+    "position": 3
+  },
+  {
+    "name": "Jacobobito",
+    "tag": "SQCV3",
+    "category": "Low Elo",
+    "tier": "PLATINUM",
+    "rank": "III",
+    "lp": 56,
+    "wins": 64,
+    "losses": 55,
+    "winrate": 53.8,
+    "score": 42056,
+    "position": 4
+  },
+  {
     "name": "JuanTaicho",
     "tag": "SQCV1",
-    "puuid": "TU_PUUID",
     "category": "High Elo",
     "tier": "UNRANKED",
     "rank": "",
@@ -10,13 +61,12 @@
     "wins": 0,
     "losses": 0,
     "winrate": 0.0,
-    "score": -1,
-    "position": 1
+    "score": -10000,
+    "position": 5
   },
   {
     "name": "Sebs",
     "tag": "SQCV2",
-    "puuid": "PUUID_SEBS",
     "category": "Mid Elo",
     "tier": "UNRANKED",
     "rank": "",
@@ -24,21 +74,7 @@
     "wins": 0,
     "losses": 0,
     "winrate": 0.0,
-    "score": -1,
-    "position": 2
-  },
-  {
-    "name": "Jacobobito",
-    "tag": "SQCV3",
-    "puuid": "PUUID_JACOBOBITO",
-    "category": "Low Elo",
-    "tier": "UNRANKED",
-    "rank": "",
-    "lp": 0,
-    "wins": 0,
-    "losses": 0,
-    "winrate": 0.0,
-    "score": -1,
-    "position": 3
+    "score": -10000,
+    "position": 6
   }
 ]
