@@ -45,6 +45,12 @@ PLAYERS = [
         "puuid": "NQ-dX3k5Mg7kVEmvr5vk26jR5W2VC8RBYZGx4ezPqwBiG9RHn_XLAImwETK-YUdEzlLCySVY09nbxg",
         "category": "Low Elo"
     },
+    {
+        "name": "KoricinaVT",
+        "tag": "PBG",
+        "puuid": "Km_Yz8Bcy7DIAZvd3v5jUq7eBoa4VX_0Hu733gGRnwshGmeTHLabgVZEuxR4hGItI4lRdmOptBF9vw",
+        "category": "High Elo"
+    },
 ]
 
 def fetch_soloq_data(player_name, puuid):
