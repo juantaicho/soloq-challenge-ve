@@ -13,12 +13,12 @@
     html, body {
       background: transparent;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
-      padding: 12px;
+      padding: 16px;
     }
     .widget-container {
       width: 270px;
@@ -103,6 +103,10 @@
       color: #a1a1aa;
       font-size: 0.78rem;
     }
+    .error-text {
+      color: #f87171;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
@@ -118,7 +122,7 @@
     </div>
 
     <div class="rank-card">
-      <div class="rank-tier" id="rank">Consultando datos...</div>
+      <div class="rank-tier" id="rank">Conectando...</div>
       <div class="stats-row">
         <span class="lp-val" id="lp">- LP</span>
         <span class="wr-val" id="wr">-</span>
@@ -132,10 +136,19 @@
     const targetPlayer = params.get('player');
     const targetTag = params.get('tag');
 
+    // Consulta con evasión de caché forzada
+    const JSON_URL = `https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/public/leaderboard.json?nocache=${Date.now()}`;
+
     async function updateWidget() {
+      const nameEl = document.getElementById('name');
+      const rankEl = document.getElementById('rank');
+      const lpEl = document.getElementById('lp');
+
       try {
-        const res = await fetch(`leaderboard.json?nocache=${Date.now()}`);
-        if (!res.ok) throw new Error("No se pudo cargar leaderboard.json");
+        const res = await fetch(JSON_URL, { cache: "no-store" });
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: leaderboard.json no encontrado en GitHub.`);
+        }
         const data = await res.json();
 
         let player = null;
@@ -152,7 +165,7 @@
 
         if (player) {
           document.getElementById('pos').textContent = `#${player.position}`;
-          document.getElementById('name').textContent = player.name;
+          nameEl.textContent = player.name;
           document.getElementById('tag').textContent = `#${player.tag}`;
           document.getElementById('category').textContent = player.category || 'SQCV';
           
@@ -160,18 +173,17 @@
             ? 'UNRANKED' 
             : `${player.tier} ${player.rank || ''}`;
             
-          document.getElementById('rank').textContent = rankText;
-          document.getElementById('lp').textContent = `${player.lp} LP`;
+          rankEl.textContent = rankText;
+          lpEl.textContent = `${player.lp} LP`;
           document.getElementById('wr').textContent = `${player.winrate}% WR (${player.wins}W ${player.losses}L)`;
         } else {
-          document.getElementById('name').textContent = targetPlayer || "Desconocido";
-          document.getElementById('rank').textContent = "Jugador no encontrado";
-          document.getElementById('lp').textContent = "Revisar lista";
+          nameEl.textContent = targetPlayer || "Desconocido";
+          rankEl.textContent = "No está en el ranking";
+          lpEl.textContent = "Revisar lista";
         }
       } catch (err) {
-        console.error(err);
-        document.getElementById('name').textContent = "Error";
-        document.getElementById('rank').textContent = "leaderboard.json inaccesible";
+        nameEl.textContent = "Error";
+        rankEl.innerHTML = `<span class="error-text">${err.message}</span>`;
       }
     }
 
