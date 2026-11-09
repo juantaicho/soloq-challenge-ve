@@ -137,7 +137,7 @@ def main():
     with open(f"{output_dir}/leaderboard.json", "w", encoding="utf-8") as f:
         json.dump(leaderboard, f, ensure_ascii=False, indent=2)
 
-    print("\n✓ Proceso finalizado y leaderboard.json actualizado.")
+    print("\n✓ Proceso finalizado y public/leaderboard.json actualizado.")
 
 if __name__ == "__main__":
     main()
