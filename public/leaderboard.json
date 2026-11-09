@@ -1,18 +1,5 @@
 [
   {
-    "name": "Cenando Bollo",
-    "tag": "LANN",
-    "category": "Low Elo",
-    "tier": "EMERALD",
-    "rank": "III",
-    "lp": 75,
-    "wins": 211,
-    "losses": 221,
-    "winrate": 48.8,
-    "score": 52075,
-    "position": 1
-  },
-  {
     "name": "JuanTaicho",
     "tag": "JUAN",
     "category": "Low Elo",
@@ -23,7 +10,7 @@
     "losses": 23,
     "winrate": 51.1,
     "score": 51036,
-    "position": 2
+    "position": 1
   },
   {
     "name": "MishSR",
@@ -36,7 +23,7 @@
     "losses": 102,
     "winrate": 45.7,
     "score": 43009,
-    "position": 3
+    "position": 2
   },
   {
     "name": "Jacobobito",
@@ -49,7 +36,7 @@
     "losses": 55,
     "winrate": 53.8,
     "score": 42056,
-    "position": 4
+    "position": 3
   },
   {
     "name": "JuanTaicho",
@@ -62,7 +49,7 @@
     "losses": 0,
     "winrate": 0.0,
     "score": -10000,
-    "position": 5
+    "position": 4
   },
   {
     "name": "Sebs",
@@ -75,6 +62,6 @@
     "losses": 0,
     "winrate": 0.0,
     "score": -10000,
-    "position": 6
+    "position": 5
   }
 ]
