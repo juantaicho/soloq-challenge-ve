@@ -1,5 +1,18 @@
 [
   {
+    "name": "KoricinaVT",
+    "tag": "PBG",
+    "category": "High Elo",
+    "tier": "DIAMOND",
+    "rank": "I",
+    "lp": 53,
+    "wins": 99,
+    "losses": 82,
+    "winrate": 54.7,
+    "score": 64053,
+    "position": 1
+  },
+  {
     "name": "JuanTaicho",
     "tag": "JUAN",
     "category": "Low Elo",
@@ -10,7 +23,7 @@
     "losses": 23,
     "winrate": 51.1,
     "score": 51036,
-    "position": 1
+    "position": 2
   },
   {
     "name": "MishSR",
@@ -23,7 +36,7 @@
     "losses": 103,
     "winrate": 46.1,
     "score": 43023,
-    "position": 2
+    "position": 3
   },
   {
     "name": "Jacobobito",
@@ -36,7 +49,7 @@
     "losses": 55,
     "winrate": 53.8,
     "score": 42056,
-    "position": 3
+    "position": 4
   },
   {
     "name": "JuanTaicho",
@@ -49,7 +62,7 @@
     "losses": 0,
     "winrate": 0.0,
     "score": -10000,
-    "position": 4
+    "position": 5
   },
   {
     "name": "Sebs",
@@ -62,6 +75,6 @@
     "losses": 0,
     "winrate": 0.0,
     "score": -10000,
-    "position": 5
+    "position": 6
   }
 ]
