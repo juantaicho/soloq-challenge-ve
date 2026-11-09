@@ -40,12 +40,6 @@ PLAYERS = [
         "category": "Low Elo"
     },
     {
-        "name": "Cenando Bollo",
-        "tag": "LANN",
-        "puuid": "-OWOos4PA2T1iLHJdDqcNz-sRmrvK1LbQkorfKin3JtWRnTVpw-amtI08LjEyBVDYskSt77ZagQCyw",
-        "category": "Low Elo"
-    },
-    {
         "name": "MishSR",
         "tag": "LAN",
         "puuid": "NQ-dX3k5Mg7kVEmvr5vk26jR5W2VC8RBYZGx4ezPqwBiG9RHn_XLAImwETK-YUdEzlLCySVY09nbxg",
