@@ -8,138 +8,77 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
     body {
       background: transparent;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
       width: 100vw;
       height: 100vh;
-      padding: 10px;
-    }
-    .widget-card {
       display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 16px;
+    }
+    /* Contenedor vertical estilo carmesí */
+    .widget-container {
+      width: 260px;
+      background: linear-gradient(180deg, rgba(26, 11, 16, 0.94) 0%, rgba(13, 5, 8, 0.97) 100%);
+      border: 1px solid rgba(225, 29, 72, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), inset 0 0 16px rgba(225, 29, 72, 0.15);
+      padding: 16px;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, rgba(20, 10, 15, 0.92), rgba(35, 12, 22, 0.95));
-      border: 1px solid rgba(220, 38, 38, 0.4);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(220, 38, 38, 0.2);
-      border-radius: 8px;
-      padding: 8px 16px;
-      color: #fff;
-      min-width: 280px;
+      border-bottom: 1px solid rgba(225, 29, 72, 0.25);
+      padding-bottom: 8px;
     }
     .position-badge {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #ef4444;
-      min-width: 32px;
-      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #f43f5e;
+      text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
     }
-    .player-info {
+    .category-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(225, 29, 72, 0.2);
+      border: 1px solid rgba(225, 29, 72, 0.4);
+      color: #fda4af;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+    .player-section {
       display: flex;
       flex-direction: column;
     }
     .player-name {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #f8fafc;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: flex;
       align-items: baseline;
       gap: 4px;
     }
     .player-tag {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      font-weight: 500;
-    }
-    .player-rank {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      color: #fbbf24;
+      color: #94a3b8;
+    }
+    .rank-section {
       display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-    .player-lp {
-      color: #38bdf8;
-    }
-    .player-wr {
-      font-size: 0.75rem;
-      color: #a3a3a3;
-    }
-  </style>
-</head>
-<body>
-  <div class="widget-card" id="widget">
-    <div class="position-badge" id="pos">#-</div>
-    <div class="player-info">
-      <div class="player-name">
-        <span id="name">Cargando...</span>
-        <span class="player-tag" id="tag"></span>
-      </div>
-      <div class="player-rank">
-        <span id="rank">-</span>
-        <span class="player-lp" id="lp">- LP</span>
-        <span class="player-wr" id="wr">(-% WR)</span>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const targetPuuid = params.get('puuid');
-    const targetPlayer = params.get('player');
-    const targetTag = params.get('tag');
-
-    async function updateWidget() {
-      try {
-        const res = await fetch(`leaderboard.json?t=${Date.now()}`);
-        if (!res.ok) return;
-        const data = await res.json();
-
-        // 1. Prioridad: Buscar por PUUID único
-        let player = null;
-        if (targetPuuid) {
-          player = data.find(p => p.puuid === targetPuuid);
-        }
-        // 2. Alternativa: Buscar por Nombre y Tag combinados
-        else if (targetPlayer && targetTag) {
-          player = data.find(p => 
-            p.name.toLowerCase() === targetPlayer.toLowerCase() &&
-            p.tag.toLowerCase() === targetTag.toLowerCase()
-          );
-        } 
-        // 3. Fallback: Buscar solo por Nombre si no hay duplicado
-        else if (targetPlayer) {
-          player = data.find(p => p.name.toLowerCase() === targetPlayer.toLowerCase());
-        }
-
-        if (player) {
-          document.getElementById('pos').textContent = `#${player.position}`;
-          document.getElementById('name').textContent = player.name;
-          document.getElementById('tag').textContent = `#${player.tag}`;
-          
-          const rankText = player.tier === 'UNRANKED' 
-            ? 'UNRANKED' 
-            : `${player.tier} ${player.rank}`;
-            
-          document.getElementById('rank').textContent = rankText;
-          document.getElementById('lp').textContent = `${player.lp} LP`;
-          document.getElementById('wr').textContent = `(${player.winrate}% WR)`;
-        } else {
-          document.getElementById('name').textContent = "Jugador no hallado";
-        }
-      } catch (err) {
-        console.error("Error al actualizar widget:", err);
-      }
-    }
-
-    updateWidget();
-    setInterval(updateWidget, 60000); // Refresco cada 60s
-  </script>
-</body>
-</html>
+      flex-direction: column;
+      gap
