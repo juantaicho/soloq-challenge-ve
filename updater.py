@@ -13,7 +13,7 @@ TIER_ORDER = {
 }
 RANK_ORDER = {"I": 4, "II": 3, "III": 2, "IV": 1}
 
-# Lista centralizada de participantes
+# Lista centralizada de participantes (conserva tus PUUIDs reales aquí)
 PLAYERS = [
     {
         "name": "JuanTaicho",
@@ -35,26 +35,65 @@ PLAYERS = [
     }
 ]
 
-def fetch_soloq_data(puuid):
-    url = f"https://{PLATFORM_ROUTING}/lol/league/v4/entries/by-puuid/{puuid}"
-    headers = {"X-Riot-Token": RIOT_API_KEY}
-    
+def get_summoner_id(puuid, headers):
+    """Obtiene el summonerId a partir del puuid para consultar ligas de forma 100% compatible."""
+    url = f"https://{PLATFORM_ROUTING}/lol/summoner/v4/summoners/by-puuid/{puuid}"
     try:
         res = requests.get(url, headers=headers, timeout=10)
         if res.status_code == 200:
-            entries = res.json()
-            for entry in entries:
-                if entry.get("queueType") == "RANKED_SOLO_5x5":
-                    return {
-                        "tier": entry.get("tier", "UNRANKED"),
-                        "rank": entry.get("rank", ""),
-                        "leaguePoints": entry.get("leaguePoints", 0),
-                        "wins": entry.get("wins", 0),
-                        "losses": entry.get("losses", 0)
-                    }
+            return res.json().get("id")
+        else:
+            print(f"[ERROR] No se pudo obtener SummonerID para {puuid} (Status {res.status_code}): {res.text}")
     except Exception as e:
-        print(f"Error consultando PUUID {puuid}: {e}")
+        print(f"[EXCEPCIÓN] Obteniendo SummonerID: {e}")
+    return None
 
+def fetch_soloq_data(puuid):
+    headers = {"X-Riot-Token": RIOT_API_KEY}
+    
+    # 1. Intentar primero consultar por PUUID directamente
+    url_puuid = f"https://{PLATFORM_ROUTING}/lol/league/v4/entries/by-puuid/{puuid}"
+    entries = []
+    
+    try:
+        res = requests.get(url_puuid, headers=headers, timeout=10)
+        if res.status_code == 200:
+            entries = res.json()
+        elif res.status_code == 401 or res.status_code == 403:
+            print("[ALERTA CRÍTICA] RIOT_API_KEY expirada o no autorizada (Status 401/403).")
+            return fallback_stats()
+    except Exception as e:
+        print(f"[EXCEPCIÓN] Fallo de red consultando por PUUID: {e}")
+
+    # 2. Si by-puuid vino vacío (muy común en LAN), consultar por summonerId
+    if not entries:
+        summoner_id = get_summoner_id(puuid, headers)
+        if summoner_id:
+            url_summoner = f"https://{PLATFORM_ROUTING}/lol/league/v4/entries/by-summoner/{summoner_id}"
+            try:
+                res_sum = requests.get(url_summoner, headers=headers, timeout=10)
+                if res_sum.status_code == 200:
+                    entries = res_sum.json()
+                else:
+                    print(f"[ERROR] Fallo al consultar por summonerId (Status {res_sum.status_code}): {res_sum.text}")
+            except Exception as e:
+                print(f"[EXCEPCIÓN] Fallo consultando por summonerId: {e}")
+
+    # 3. Filtrar la cola RANKED_SOLO_5x5
+    for entry in entries:
+        if entry.get("queueType") == "RANKED_SOLO_5x5":
+            return {
+                "tier": entry.get("tier", "UNRANKED").upper(),
+                "rank": entry.get("rank", ""),
+                "leaguePoints": entry.get("leaguePoints", 0),
+                "wins": entry.get("wins", 0),
+                "losses": entry.get("losses", 0)
+            }
+
+    print(f"[INFO] No se encontraron entradas de Ranked SoloQ para PUUID: {puuid}. Entradas recibidas: {entries}")
+    return fallback_stats()
+
+def fallback_stats():
     return {
         "tier": "UNRANKED",
         "rank": "",
@@ -64,12 +103,16 @@ def fetch_soloq_data(puuid):
     }
 
 def main():
+    if not RIOT_API_KEY:
+        print("[ERROR CRÍTICO] La variable RIOT_API_KEY no está configurada en los Secrets.")
+        return
+
     leaderboard = []
     
     for p in PLAYERS:
+        print(f"Consultando datos para {p['name']}...")
         stats = fetch_soloq_data(p["puuid"])
         
-        # Cálculo de valor de ordenamiento
         tier_val = TIER_ORDER.get(stats["tier"], -1)
         rank_val = RANK_ORDER.get(stats["rank"], 0)
         score = (tier_val * 10000) + (rank_val * 1000) + stats["leaguePoints"]
@@ -90,10 +133,8 @@ def main():
             "score": score
         })
     
-    # Ordenar ranking global
     leaderboard.sort(key=lambda x: x["score"], reverse=True)
     
-    # Asignar posición global
     for idx, player in enumerate(leaderboard, start=1):
         player["position"] = idx
 
@@ -102,6 +143,8 @@ def main():
     
     with open(f"{output_dir}/leaderboard.json", "w", encoding="utf-8") as f:
         json.dump(leaderboard, f, ensure_ascii=False, indent=2)
+
+    print("Actualización de leaderboard.json completada con éxito.")
 
 if __name__ == "__main__":
     main()
