@@ -22,10 +22,10 @@
     }
     .widget-container {
       width: 270px;
-      background: linear-gradient(180deg, rgba(24, 10, 15, 0.95) 0%, rgba(10, 4, 7, 0.98) 100%);
+      background: linear-gradient(180deg, rgba(28, 10, 18, 0.96) 0%, rgba(12, 4, 8, 0.98) 100%);
       border: 1.5px solid rgba(225, 29, 72, 0.6);
-      border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 12px rgba(225, 29, 72, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(225, 29, 72, 0.15);
       padding: 14px;
       color: #f8fafc;
       display: flex;
@@ -40,19 +40,19 @@
       padding-bottom: 6px;
     }
     .position-badge {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 900;
       color: #f43f5e;
       text-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
     }
     .category-tag {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       background: rgba(225, 29, 72, 0.25);
       border: 1px solid rgba(225, 29, 72, 0.5);
       color: #fda4af;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 6px;
     }
     .player-row {
@@ -62,7 +62,7 @@
       overflow: hidden;
     }
     .player-name {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: #ffffff;
       white-space: nowrap;
@@ -77,11 +77,11 @@
     .rank-card {
       background: rgba(0, 0, 0, 0.45);
       padding: 8px 10px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
     .rank-tier {
       font-size: 0.95rem;
@@ -103,16 +103,10 @@
       color: #a1a1aa;
       font-size: 0.78rem;
     }
-    .status-msg {
-      font-size: 0.85rem;
-      color: #f87171;
-      text-align: center;
-      padding: 10px 0;
-    }
   </style>
 </head>
 <body>
-  <div class="widget-container" id="widget">
+  <div class="widget-container">
     <div class="header-row">
       <div class="position-badge" id="pos">#-</div>
       <div class="category-tag" id="category">SQCV</div>
@@ -123,7 +117,7 @@
       <span class="player-tag" id="tag"></span>
     </div>
 
-    <div class="rank-card" id="rank-card">
+    <div class="rank-card">
       <div class="rank-tier" id="rank">Consultando datos...</div>
       <div class="stats-row">
         <span class="lp-val" id="lp">- LP</span>
@@ -138,13 +132,10 @@
     const targetPlayer = params.get('player');
     const targetTag = params.get('tag');
 
-    async function loadWidget() {
+    async function updateWidget() {
       try {
-        // Usa ruta relativa explícita al directorio actual
-        const res = await fetch(`./leaderboard.json?nocache=${Date.now()}`);
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: no se pudo cargar leaderboard.json`);
-        }
+        const res = await fetch(`leaderboard.json?nocache=${Date.now()}`);
+        if (!res.ok) throw new Error("No se pudo cargar leaderboard.json");
         const data = await res.json();
 
         let player = null;
@@ -156,4 +147,36 @@
             p.tag.toLowerCase() === targetTag.toLowerCase()
           );
         } else if (targetPlayer) {
-          player = data.find(p => p.name.toLowerCase() === target
+          player = data.find(p => p.name.toLowerCase() === targetPlayer.toLowerCase());
+        }
+
+        if (player) {
+          document.getElementById('pos').textContent = `#${player.position}`;
+          document.getElementById('name').textContent = player.name;
+          document.getElementById('tag').textContent = `#${player.tag}`;
+          document.getElementById('category').textContent = player.category || 'SQCV';
+          
+          const rankText = (!player.tier || player.tier === 'UNRANKED')
+            ? 'UNRANKED' 
+            : `${player.tier} ${player.rank || ''}`;
+            
+          document.getElementById('rank').textContent = rankText;
+          document.getElementById('lp').textContent = `${player.lp} LP`;
+          document.getElementById('wr').textContent = `${player.winrate}% WR (${player.wins}W ${player.losses}L)`;
+        } else {
+          document.getElementById('name').textContent = targetPlayer || "Desconocido";
+          document.getElementById('rank').textContent = "Jugador no encontrado";
+          document.getElementById('lp').textContent = "Revisar lista";
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById('name').textContent = "Error";
+        document.getElementById('rank').textContent = "leaderboard.json inaccesible";
+      }
+    }
+
+    updateWidget();
+    setInterval(updateWidget, 60000);
+  </script>
+</body>
+</html>
