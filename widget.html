@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SQCV Overlay Widget</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: transparent; overflow: hidden; width: 100vw; height: 100vh; display: flex; align-items: flex-start; justify-content: flex-start; padding: 16px; }
+    .widget-container { width: 270px; background: linear-gradient(180deg, rgba(28, 10, 18, 0.96) 0%, rgba(12, 4, 8, 0.98) 100%); border: 1.5px solid rgba(225, 29, 72, 0.6); border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(225, 29, 72, 0.15); padding: 14px; color: #f8fafc; display: flex; flex-direction: column; gap: 8px; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(225, 29, 72, 0.3); padding-bottom: 6px; }
+    .position-badge { font-size: 1.5rem; font-weight: 900; color: #f43f5e; text-shadow: 0 0 8px rgba(244, 63, 94, 0.6); }
+    .category-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: rgba(225, 29, 72, 0.25); border: 1px solid rgba(225, 29, 72, 0.5); color: #fda4af; padding: 2px 8px; border-radius: 6px; }
+    .player-row { display: flex; align-items: baseline; gap: 5px; overflow: hidden; }
+    .player-name { font-size: 1.15rem; font-weight: 800; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player-tag { font-size: 0.8rem; font-weight: 600; color: #94a3b8; }
+    .rank-card { background: rgba(0, 0, 0, 0.45); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 4px; }
+    .rank-tier { font-size: 0.95rem; font-weight: 700; color: #e2e8f0; }
+    .stats-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; font-weight: 600; }
+    .lp-val { color: #38bdf8; font-weight: 700; }
+    .wr-val { color: #a1a1aa; font-size: 0.78rem; }
+    .sync-status { font-size: 0.65rem; color: #4ade80; text-align: right; margin-top: -2px; }
+    .error-text { color: #fb7185; font-size: 0.75rem; word-wrap: break-word; }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="header-row">
+      <div class="position-badge" id="pos">#-</div>
+      <div class="category-tag" id="category">SQCV</div>
+    </div>
+    <div class="player-row">
+      <span class="player-name" id="name">Iniciando...</span>
+      <span class="player-tag" id="tag"></span>
+    </div>
+    <div class="rank-card">
+      <div class="rank-tier" id="rank">Conectando API...</div>
+      <div class="stats-row">
+        <span class="lp-val" id="lp">- LP</span>
+        <span class="wr-val" id="wr">-</span>
+      </div>
+    </div>
+    <div class="sync-status" id="sync">⏱ Sincronizando...</div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const queryPlayer = (params.get('player') || '').trim().toLowerCase();
+
+    async function fetchData() {
+      const nameEl = document.getElementById('name');
+      const rankEl = document.getElementById('rank');
+      const lpEl = document.getElementById('lp');
+      const syncEl = document.getElementById('sync');
+
+      if (!queryPlayer) {
+        nameEl.textContent = "Falta URL param";
+        rankEl.innerHTML = `<span class="error-text">Agrega ?player=TuNombre</span>`;
+        syncEl.textContent = "⚠️ Error de configuración";
+        return;
+      }
+
+      try {
+        // Petición GET limpia y segura. Se salta el caché sin disparar alertas CORS.
+        const DATA_URL = `https://raw.githubusercontent.com/juantaicho/soloq-challenge-ve/main/public/leaderboard.json?timestamp=${Date.now()}`;
+        const res = await fetch(DATA_URL);
+        
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const players = await res.json();
+        
+        // Búsqueda flexible (ignora mayúsculas y espacios)
+        const match = players.find(p => (p.name || '').trim().toLowerCase() === queryPlayer);
+
+        if (match) {
+          document.getElementById('pos').textContent = `#${match.position ?? '-'}`;
+          nameEl.textContent = match.name;
+          document.getElementById('tag').textContent = match.tag ? `#${match.tag}` : '';
+          document.getElementById('category').textContent = match.category || 'SQCV';
+
+          const rankText = (!match.tier || match.tier === 'UNRANKED') ? 'UNRANKED' : `${match.tier} ${match.rank || ''}`.trim();
+          rankEl.textContent = rankText;
+          lpEl.textContent = `${match.lp ?? 0} LP`;
+          document.getElementById('wr').textContent = `${match.winrate ?? 0}% WR (${match.wins ?? 0}W ${match.losses ?? 0}L)`;
+          
+          const now = new Date();
+          syncEl.textContent = `🟢 En vivo: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+        } else {
+          nameEl.textContent = params.get('player');
+          const availableNames = players.map(p => p.name).join(', ');
+          rankEl.innerHTML = `<span class="error-text">No hallado. Nombres en JSON: ${availableNames}</span>`;
+          lpEl.textContent = "-";
+          syncEl.textContent = "🔴 Jugador no coincide";
+        }
+      } catch (err) {
+        nameEl.textContent = "Error de red";
+        rankEl.innerHTML = `<span class="error-text">Fallo al leer GitHub: ${err.message}</span>`;
+        syncEl.textContent = "🔴 Desconectado";
+      }
+    }
+
+    fetchData();
+    setInterval(fetchData, 30000); // Consulta cada 30 segundos
+  </script>
+</body>
+</html>
