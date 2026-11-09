@@ -30,19 +30,19 @@ PLAYERS = [
     {
         "name": "Jacobobito",
         "tag": "SQCV3",
-        "puuid": "PUUID_DE_JACOBOBITO",
+        "puuid": "XIzsG0tQLAYo92D3VoE9UutQLa-ezm0AnkMDLBkVYJ3VsJmao83ZcTEueBSLDFAGmXEsh9sGq_SLcQ",
         "category": "Low Elo"
     },
     {
         "name": "JuanTaicho",
         "tag": "JUAN",
-        "puuid": "PUUID_DE_JACOBOBITO",
+        "puuid": "0xX7gal3E0aslhryBJImgmWbodggXEq_GX4FX5pzu1H1pnPAIkdZeSE5W1d9lrsPzTwbvQLl_6qTWA",
         "category": "Low Elo"
     },
     {
         "name": "Cenando Bollo",
         "tag": "LANN",
-        "puuid": "PUUID_DE_JACOBOBITO",
+        "puuid": "-OWOos4PA2T1iLHJdDqcNz-sRmrvK1LbQkorfKin3JtWRnTVpw-amtI08LjEyBVDYskSt77ZagQCyw",
         "category": "Low Elo"
     },
 ]
