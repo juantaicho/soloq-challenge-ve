@@ -317,9 +317,13 @@
 
     async function loadLeaderboard() {
       try {
-        const res = await fetch(`leaderboard.json?t=${Date.now()}`);
-        if (!res.ok) throw new Error("No se pudo cargar leaderboard.json");
-        playersData = await res.json();
+        const res = await fetch(`leaderboard.json?nocache=${Date.now()}`, {
+  cache: "no-store",
+  headers: {
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache"
+  }
+});
         
         document.getElementById('update-time').textContent = `Actualizado: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
         render();
