@@ -32,7 +32,7 @@ PLAYERS = [
         "tag": "SQCV3",
         "puuid": "PUUID_DE_JACOBOBITO",
         "category": "Low Elo"
-    }
+    },
     {
         "name": "JuanTaicho",
         "tag": "JUAN",
