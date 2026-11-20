@@ -26,19 +26,6 @@
     "position": 2
   },
   {
-    "name": "MishSR",
-    "tag": "LAN",
-    "category": "Low Elo",
-    "tier": "PLATINUM",
-    "rank": "III",
-    "lp": 62,
-    "wins": 104,
-    "losses": 122,
-    "winrate": 46.0,
-    "score": 42062,
-    "position": 3
-  },
-  {
     "name": "Jacobobito",
     "tag": "SQCV3",
     "category": "Low Elo",
@@ -49,6 +36,19 @@
     "losses": 55,
     "winrate": 53.8,
     "score": 42056,
+    "position": 3
+  },
+  {
+    "name": "MishSR",
+    "tag": "LAN",
+    "category": "Low Elo",
+    "tier": "PLATINUM",
+    "rank": "III",
+    "lp": 40,
+    "wins": 104,
+    "losses": 123,
+    "winrate": 45.8,
+    "score": 42040,
     "position": 4
   },
   {
